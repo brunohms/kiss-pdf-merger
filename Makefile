@@ -1,5 +1,5 @@
 build:
-	go build -o pdf-merger
+	go build -o builds/pdf-merger
 
 build-windows:
-	GOOS=windows go build -o pdf-merger.exe
+	GOOS=windows go build -o builds/pdf-merger.exe
