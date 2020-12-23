@@ -12,7 +12,7 @@ var inputPaths []string
 var outputPath string
 
 func walkFunc(path string, info os.FileInfo, _ error) error {
-	if strings.HasSuffix(path, ".pdf") && info.Size() > 0 && !strings.HasPrefix(path, outputPath){
+	if strings.HasSuffix(path, ".pdf") && info.Size() > 0 && path != outputPath {
 		absolutePath, _ := filepath.Abs(path)
 		inputPaths = append(inputPaths, absolutePath)
 	}
@@ -21,7 +21,7 @@ func walkFunc(path string, info os.FileInfo, _ error) error {
 
 func main() {
 	outputPath, _ = filepath.Abs("./")
-	outputPath = filepath.Base(outputPath)
+	outputPath = filepath.Base(outputPath) + ".pdf"
 
 	err := filepath.Walk("./", walkFunc)
 	if err != nil {
@@ -38,7 +38,7 @@ func main() {
 		fmt.Println("Path:", path)
 	}
 
-	err = pdf.MergeCreateFile(inputPaths, outputPath + ".pdf", nil)
+	err = pdf.MergeCreateFile(inputPaths, outputPath, nil)
 	if err != nil {
 		fmt.Println("Error:", err)
 		return
